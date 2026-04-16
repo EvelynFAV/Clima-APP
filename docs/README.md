@@ -96,12 +96,9 @@ npm --version    # Debería mostrar v6.0.0 o superior
 ### Paso 1: Clonar o Descargar el Proyecto
 ```bash
 # Opción A: Clonar desde Git
-git clone https://github.com/usuario/App-Clima-GPT.git
-cd App-Clima-GPT
+git clone https://github.com/EvelynFAV/Clima-APP.git
+cd App-Clima
 
-# Opción B: Descargar ZIP y extraer
-# Luego abrir terminal en la carpeta
-cd c:\ruta\a\App-Clima-GPT
 ```
 ### Paso 2: Instalar Dependencias
 ```bash
@@ -331,180 +328,103 @@ Santiago, Dominican Republic
 
 ## 🔧 Lista de Funciones (contenidas en script.js)
 
-### Funciones Principales
+### Funciones Principales - Orden de Ejecución
 
 #### 1. `showSuggestions()` 
 **Propósito:** Activar búsqueda con debounce  
+**Desencadenante:** Evento `oninput` en campo de búsqueda  
 **Lógica:**
-- Limpia timeout anterior (cancel request anterior)
-- Espera 400ms antes de llamar API
-- Optimiza: evita 100 llamadas por escribir 10 caracteres
-
-```javascript
-function showSuggestions() {
-    clearTimeout(timeout);
-    timeout = setTimeout(() => {
-        fetchSuggestions();
-    }, 400);
-}
-```
+- Limpia timeout anterior
+- Espera 400ms sin nueva entrada antes de llamar `fetchSuggestions()`
+- Optimiza: evita llamadas excesivas a la API
 
 #### 2. `fetchSuggestions()`
-**Propósito:** Buscar sugerencias de ciudades  
+**Propósito:** Obtener sugerencias de ciudades mientras el usuario escribe  
 **API:** `https://geocoding-api.open-meteo.com/v1/search`  
-**Parámetros:**
-- `name`: Nombre ciudad a buscar
-- `count`: 5 resultados
-- `language`: es (español)
-- `format`: json
-
-```javascript
-const response = await fetch(
-    `https://geocoding-api.open-meteo.com/v1/search?name=${input}&count=5&language=es&format=json`
-);
-```
-
-**Manejo de Errores:**
-- Si `input.length < 2`: No llamar API
-- Si `!data.results`: Mostrar sugerencias vacías
-- Si error: `console.error()` (no bloquea UI)
-
-#### 3. `getWeather(lat, lon, cityName, country)`
-**Propósito:** Obtener datos climáticos  
-**Parámetros:**
-- `lat`: Latitud (-90 a 90)
-- `lon`: Longitud (-180 a 180)
-- `cityName`: Nombre ciudad
-- `country`: País
-
-**Flujo:**
-1. Si no hay `lat/lon`: Buscar geocoding primero
-2. Validar coordenadas: `isValidCoordinates(lat, lon)`
-3. Llamar API clima
-4. Procesar datos
-5. Mostrar en UI
-
-```javascript
-const weatherResponse = await fetch(
-    `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&daily=temperature_2m_max,temperature_2m_min,precipitation_probability_max,weathercode&timezone=auto`
-);
-```
-
-#### 4. `interpretWeather(code)`
-**Propósito:** Convertir código WMO a descripción legible (estado del clima) 
-**Entrada:** Código numérico (0-99)  
-**Salida:** String con emoji y descripción
-
-**Códigos principales:** (verificar mejor todos los códigos en el script.js)
-| Código | Significado |
-|--------|------------|
-| 0 | ☀️ Cielo despejado |
-| 1-3 | ⛅ Principalmente despejado |
-| 45, 48 | 🌫️ Niebla |
-| 51, 53, 55 | 🌦️ Llovizna |
-| 61, 63, 65 | 🌧️ Lluvia |
-| 71, 73, 75 | ❄️ Nieve |
-| 95, 96, 99 | ⛈️ Tormenta |
-
-#### 5. `isValidCoordinates(lat, lon)`
-**Propósito:** Validar que coordenadas estén dentro del planeta  
 **Validaciones:**
-- Latitud: `-90 ≤ lat ≤ 90`
-- Longitud: `-180 ≤ lon ≤ 180`
-- No aceptar: `null`, `undefined`, `NaN`, `Infinity`, tipos no-número
+- Mínimo 2 caracteres de entrada
+- Solo permite letras, acentos, espacios y guiones (seguridad XSS)
+- Si error: muestra mensaje de error sin bloquear UI
 
-**Retorna:** `true` si válidas, `false` si inválidas
+#### 3. `getCoordinatesFromCity(cityName)`
+**Propósito:** Convertir nombre de ciudad a coordenadas geográficas  
+**API:** `https://geocoding-api.open-meteo.com/v1/search`  
+**Retorna:** `{ latitude, longitude, name, country }`
+**Errores:** Lanza excepción si ciudad no existe o hay error de API
 
-```javascript
-function isValidCoordinates(lat, lon) {
-    if (typeof lat !== 'number' || typeof lon !== 'number') return false;
-    if (isNaN(lat) || isNaN(lon)) return false;
-    if (!isFinite(lat) || !isFinite(lon)) return false;
-    if (lat < -90 || lat > 90 || lon < -180 || lon > 180) return false;
-    return true;
-}
-```
+#### 4. `fetchWeatherData(lat, lon)`
+**Propósito:** Obtener datos del clima actual y pronóstico de 7 días  
+**API:** `https://api.open-meteo.com/v1/forecast`  
+**Retorna:** Objeto con `current_weather` (temp, viento, código) y `daily` (7 días de pronóstico)
 
-#### 6. `addToSearchHistory(cityName)`
-**Propósito:** Guardar búsquedas recientes en localStorage  
-**Datos almacenados:** Máximo 10 ciudades, sin duplicados  
-**Persistencia:** localStorage clave `'searchHistory'`
+#### 5. `getWeather(lat, lon, cityName, country)` ⭐
+**Propósito:** Función principal que orquesta toda la búsqueda (PUNTO DE ENTRADA)  
+**Flujo executado:**
+1. Valida entrada
+2. Obtiene coordenadas si no existen
+3. Valida coordenadas con `isValidCoordinates()`
+4. Guarda en historial
+5. Obtiene clima con `fetchWeatherData()`
+6. Verifica alertas
+7. Renderiza resultados
 
-```javascript
-function addToSearchHistory(cityName) {
-    searchHistory = searchHistory.filter(city => city !== cityName);
-    searchHistory.unshift(cityName);
-    if (searchHistory.length > 10) searchHistory.pop();
-    localStorage.setItem('searchHistory', JSON.stringify(searchHistory));
-    displaySearchHistory();
-}
-```
+#### 6. `interpretWeather(code)`
+**Propósito:** Convertir código WMO a descripción legible con emoji
+**Entrada:** Código numérico (0-99)
+**Salida:** String con emoji (ej: "☀️ Cielo despejado")
 
-#### 7. `displaySearchHistory()`
-**Propósito:** Mostrar botones de búsquedas recientes en UI  
-**Ubicación:** Div `#history` bajo el botón de búsqueda  
-**Interacción:** Click en botón → busca esa ciudad
+#### 7. `isValidCoordinates(lat, lon)`
+**Propósito:** Validar que coordenadas sean válidas para el planeta Tierra
+**Validaciones:** tipo number, no NaN, no Infinity, rangos geográficos
+**Retorna:** `true` si válidas, `false` si no
 
-```javascript
-// Genera: [Santiago] [Madrid] [Tokyo] ...
-```
+#### 8. `addToSearchHistory(cityName)`
+**Propósito:** Guardar búsqueda reciente en localStorage
+**Reglas:** Máximo 10, sin duplicados, más recientes primero
+**Almacenamiento:** localStorage clave `'searchHistory'`
 
-#### 8. `toggleTheme()`
-**Propósito:** Cambiar entre modo claro/oscuro  
-**Persistencia:** localStorage clave `'theme'`  
-**Default:** `'light'` si no existe preferencia
+#### 9. `displaySearchHistory()`
+**Propósito:** Renderizar botones de búsquedas recientes en UI
+**Ubicación:** Div `#history`
+**Interacción:** Click en botón → ejecuta `getWeather()` con esa ciudad
 
-```javascript
-function toggleTheme() {
-    currentTheme = currentTheme === 'light' ? 'dark' : 'light';
-    localStorage.setItem('theme', currentTheme);
-    applyTheme(currentTheme);
-    updateThemeButton();
-}
-```
+#### 10. `renderWeatherResults(weatherData, cityName, country)`
+**Propósito:** Componer HTML con datos del clima actual
+**Retorna:** String HTML con temp actual, máxima, mínima, viento, estado, + pronóstico
 
-#### 9. `applyTheme(theme)`
-**Propósito:** Aplicar estilos CSS del tema elegido  
-**Modifica:** Atributo `data-bs-theme` en `<html>`  
-**Estilos:** Definidos en `styles.css` con variables CSS
+#### 11. `displayForecast(forecastData)`
+**Propósito:** Generar HTML para pronóstico de 7 días en grid responsivo
+**Layout:** Mobile 2 cols, Tablet 3 cols, Desktop 4 cols
+**Por día:** nombre, fecha, emoji condición, temp máx/mín, lluvia %
 
-```javascript
-function applyTheme(theme) {
-    document.documentElement.setAttribute('data-bs-theme', theme);
-    document.body.style.backgroundColor = theme === 'dark' ? '#0d0d0d' : '#e0f7f7';
-}
-```
+#### 12. `checkWeatherAlerts(weatherCode, windSpeed, rainProb)`
+**Propósito:** Detectar condiciones climáticas peligrosas
+**Reglas:** Tormenta, Precipitación extrema, Vendaval, Vientos fuertes, Lluvia intensa
+**Efecto:** Si coincide una regla, llama `showWeatherAlert()`
 
-#### 10. `updateThemeButton()`
-**Propósito:** Cambiar texto del botón según tema actual  
-**Botón:** `#themeToggle`  
-**Textos:** "🌙 Oscuro" (modo light) ↔ "☀️ Claro" (modo dark)
+#### 13. `showWeatherAlert(msg, level)`
+**Propósito:** Mostrar alerta meteorológica en UI
+**Entrada:** msg (string), level (`'danger'` | `'warning'` | `'info'`)
+**Características:** Bootstrap dismissible, se inserta encima de resultados
 
-#### 11. `checkWeatherAlerts(weatherCode, windSpeed, rainProb)`
-**Propósito:** Detectar condiciones climáticas peligrosas  
-**Niveles de alerta:**
-- 🔴 **PELIGRO:** Tormentas (WMO ≥95) o vientos >80 km/h
-- 🟠 **ADVERTENCIA:** Vientos 60-80 km/h o lluvia >90%
-- 🔵 **INFO:** Información general
+#### 14. `showError(message)`
+**Propósito:** Mostrar mensaje de error al usuario
+**Ubicación:** Div `#result`
+**Estilo:** Texto rojo con emoji ⚠️
 
-```javascript
-if (weatherCode >= 95) showWeatherAlert("⚠️ TORMENTA EXTREMA", "danger");
-```
+#### 15. `toggleTheme()`
+**Propósito:** Alternar entre modo light/dark
+**Persistencia:** localStorage clave `'theme'`
+**Flujo:** Alterna tema → guarda → aplica cambios → actualiza botón
 
-#### 12. `showWeatherAlert(msg, level)`
-**Propósito:** Mostrar alerta meteorológica en UI  
-**Bootstrap alert:** Dismissible (botón X para cerrar)  
-**Niveles:** `'danger'`, `'warning'`, `'info'`
+#### 16. `applyTheme(theme)`
+**Propósito:** Aplicar estilos CSS del tema elegido
+**Cambios:** Atributo `data-bs-theme` en `<html>`, color fondo body
 
-#### 13. `displayForecast(forecastData)`
-**Propósito:** Mostrar pronóstico de 7 días en grid responsive  
-**Layout:** Bootstrap grid cols 12/6/4/3 (mobile/tablet/desktop)  
-**Per-día muestra:** Nombre día, fecha, emoji condición, temp máx/mín, lluvia %
-
-```javascript
-// Genera tarjetas: Hoy | Mañana | +2 | +3 | +4 | +5 | +6
-// Cada una: max 25°C / min 18°C, 🌧️ 30%
-```
+#### 17. `updateThemeButton()`
+**Propósito:** Actualizar texto del botón de tema
+**Ubicación:** Elemento `#themeToggle`
+**Textos:** "🌙 Oscuro" (light mode) | "☀️ Claro" (dark mode)
 
 ---
 
