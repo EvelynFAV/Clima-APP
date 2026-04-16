@@ -126,7 +126,8 @@ OJO: En caso de que no vea lo anterior, significa que hay un error en el código
 
 ### Paso 4: Ejecutar la Aplicación
 
-**Opción A: Abrir directamente en navegador**
+Abre el archivo `src/index.html` directamente en tu navegador:
+
 ```bash
 # En Windows
 start src/index.html
@@ -138,16 +139,7 @@ open src/index.html
 xdg-open src/index.html
 ```
 
-**Opción B: Usar un servidor local (recomendado)**
-```bash
-# Con Python 3
-python -m http.server 8000
-
-# Con Node.js
-npx http-server
-
-# Luego acceder a http://localhost:8000/src
-```
+O simplemente navega a la carpeta `src/` y haz doble clic en `index.html`.
 ---
 
 ## 📖 Guía de Uso
