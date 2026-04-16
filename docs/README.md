@@ -439,6 +439,7 @@ Santiago, Dominican Republic
 │  │ #cityInput (input)                           │   │
 │  │ #suggestions (div)                           │   │
 │  │ #result (div)                                │   │
+│  │ #history (div)                               │   │
 │  └──────────────────────────────────────────────┘   │
 └──────────────┬───────────────────────────────────────┘
                │
@@ -448,26 +449,27 @@ Santiago, Dominican Republic
       │  Lógica principal  │
       └────────┬───────────┘
                │
-        ┌──────┴──────┐
-        │             │
-        ▼             ▼
-   ┌─────────┐   ┌────────────┐
-   │ Debounce│   │ Validación │
-   │ 400ms   │   │ Coordenadas│
-   └────┬────┘   └─────┬──────┘
-        │              │
-        ▼              ▼
-┌─────────────────────────────────────┐
-│      APIs Open-Meteo                │
-├─────────────────────────────────────┤
-│ 1. Geocoding API (búsqueda ciudades)│
-│ 2. Weather API (datos climáticos)   │
-└─────────────────────────────────────┘
+        ┌──────┴──────────────┐
+        │                     │
+        ▼                     ▼
+   ┌─────────────┐      ┌─────────────────┐
+   │ Debounce    │      │ Validación      │
+   │ 400ms       │      │ Coordenadas     │
+   └──────┬──────┘      └────────┬────────┘
+          │                      │
+          ▼                      ▼
+┌─────────────────────────────────────────────┐
+│      APIs Open-Meteo (HTTPS)                │
+├─────────────────────────────────────────────┤
+│ • Geocoding API (búsqueda ciudades)         │
+│ • Weather API (datos climáticos + 7 días)   │
+│ • Timezone automático según ubicación       │
+└─────────────────────────────────────────────┘
 ```
 
-### Manejo de Errores
+### Manejo de Errores - Flujo Completo
 
-```
+```javascript
 try {
     // 1. Validar entrada
     if (!input && !lat) {
@@ -475,13 +477,11 @@ try {
         return;
     }
     
-    // 2. Búsqueda geocoding
+    // 2. Búsqueda geocoding (si es necesario)
     if (!lat || !lon) {
-        const response = await fetch(geocodingAPI);
-        if (!response.results || response.results.length === 0) {
-            showError("❌ Ciudad no encontrada");
-            return;
-        }
+        const coords = await getCoordinatesFromCity(searchTerm);
+        lat = coords.latitude;
+        lon = coords.longitude;
     }
     
     // 3. Validar coordenadas
@@ -490,14 +490,25 @@ try {
         return;
     }
     
-    // 4. Llamar API clima
-    const weatherResponse = await fetch(weatherAPI);
+    // 4. Agregar al historial
+    addToSearchHistory(`${cityName}, ${country}`);
     
-    // 5. Procesar y mostrar
-    displayWeather(data);
+    // 5. Obtener clima
+    const weatherData = await fetchWeatherData(lat, lon);
+    
+    // 6. Verificar alertas
+    checkWeatherAlerts(
+        weatherData.daily.weathercode[0],
+        weatherData.current_weather.windspeed,
+        weatherData.daily.precipitation_probability_max[0]
+    );
+    
+    // 7. Renderizar resultados
+    resultDiv.innerHTML = renderWeatherResults(weatherData, cityName, country);
     
 } catch (error) {
-    console.error("Error general:", error);
+    showError(error.message || "⚠️ Error al obtener el clima");
+}
     showError("⚠️ Error al obtener el clima");
 }
 ```
