@@ -1,0 +1,619 @@
+/* ======================================= */
+/* TEMAS - VARIABLES CSS */
+/* ======================================= */
+
+:root {
+  --primary-color: #00b4b4;
+  --primary-dark: #009999;
+  --bg-light: #e0f7f7;
+  --text-light: white;
+}
+
+html[data-bs-theme="dark"] {
+  --primary-color: #00b4b4;
+  --primary-dark: #009999;
+  --bg-light: #1a1a1a;
+  --text-light: #e0e0e0;
+}
+
+/* Fondo general */
+body {
+  background-color: var(--bg-light);
+  transition: background-color 0.3s ease;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+html[data-bs-theme="dark"] body {
+  background-color: #0d0d0d;
+  color: #e0e0e0;
+}
+
+/* ======================================= */
+/* TARJETA PRINCIPAL */
+/* ======================================= */
+
+.card-custom {
+  background-color: var(--primary-color);
+  color: white;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html[data-bs-theme="dark"] .card-custom {
+  background-color: #1a1a1a !important;
+  color: #e0e0e0 !important;
+  border: 3px solid var(--primary-color) !important;
+  box-shadow: 0 4px 15px rgba(0, 180, 180, 0.3);
+}
+
+/* Botón */
+.btn-custom {
+  background-color: white;
+  color: var(--primary-color);
+  font-weight: bold;
+  border: none;
+}
+
+.btn-custom:hover {
+  background-color: #f1f1f1;
+  color: black !important;
+}
+
+body[data-bs-theme="dark"] .btn-custom {
+html[data-bs-theme="dark"] .btn-custom {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+htmlckground-color: var(--primary-dark);
+}
+
+/* ======================================= */
+/* SUGERENCIAS */
+/* ======================================= */
+
+.suggestions {
+  background-color: var(--primary-color);
+  border-radius: 8px;
+  margin-top: 5px;
+  max-height: 180px;
+  overflow-y: auto;
+  text-align: left;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+html[data-bs-theme="dark"] .suggestions {
+  background-color: #333333;
+  color: #e0e0e0;
+}
+
+/* Cada item */
+.suggestions div {
+  padding: 10px;
+  color: white;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  transition: background 0.2s;
+}
+
+html[data-bs-theme="dark"] .suggestions div {
+  color: #e0e0e0;
+  border-bottom: 1px solid rgba(224,224,224,0.2);
+}
+
+/* Hover */
+.suggestions div:hover {
+  background-color: var(--primary-dark);
+  cursor: pointer;
+}
+
+html[data-bs-theme="dark"] .suggestions div:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+/* Último elemento sin borde */
+.suggestions div:last-child {
+  border-bottom: none;
+}
+
+/* ======================================= */
+/* FORMULARIOS EN MODO OSCURO */
+/* ======================================= */
+
+html[data-bs-theme="dark"] .form-control {
+  background-color: #2a2a2a;
+  border-color: #444444;
+  color: #e0e0e0;
+}
+
+html[data-bs-theme="dark"] .form-control::placeholder {
+  color: #999999;
+}
+
+html[data-bs-theme="dark"] .form-control:focus {
+  background-color: #2a2a2a;
+  border-color: var(--primary-color);
+  color: #e0e0e0;
+  box-shadow: 0 0 0 0.2rem rgba(0, 180, 180, 0.25);
+}
+
+/* ======================================= */
+/* CARDS EN MODO OSCURO */
+/* ======================================= */
+
+html[data-bs-theme="dark"] .card {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border: 1px solid #444444;
+}
+
+html[data-bs-theme="dark"] .card.bg-light {
+  background-color: #333333 !important;
+}
+
+/* ======================================= */
+/* TEXTO EN MODO OSCURO */
+/* ======================================= */
+
+html[data-bs-theme="dark"] h1,
+html[data-bs-theme="dark"] h2,
+html[data-bs-theme="dark"] h3,
+html[data-bs-theme="dark"] h4,
+html[data-bs-theme="dark"] h5,
+html[data-bs-theme="dark"] h6 {
+  color: #e0e0e0;
+}
+
+html[data-bs-theme="dark"] p {
+  color: #b0b0b0;
+}
+
+html[data-bs-theme="dark"] .text-muted {
+  color: #888888 !important;
+}
+
+/* ======================================= */
+/* BOTONES EN MODO OSCURO */
+/* ======================================= */
+
+html[data-bs-theme="dark"] .btn-info {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+  color: white;
+}
+
+html[data-bs-theme="dark"] .btn-info:hover {
+  background-color: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+html[data-bs-theme="dark"] .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+html[data-bs-theme="dark"] .btn-outline-danger {
+  color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+html[data-bs-theme="dark"] .btn-outline-danger:hover {
+  background-color: #e74c3c;
+  color: white;
+}
+
+html[data-bs-theme="dark"] .btn-outline-info {
+  color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+html[data-bs-theme="dark"] .btn-outline-info:hover {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+html[data-bs-theme="dark"] .btn-warning {
+  background-color: #ffc107;
+  color: black;
+}
+
+html[data-bs-theme="dark"] .btn-danger {
+  background-color: #e74c3c;
+  border-color: #e74c3c;
+}
+
+html[data-bs-theme="dark"] .btn-sm {
+  font-size: 0.875rem;
+}
+
+/* ======================================= */
+/* ALERTAS EN MODO OSCURO */
+/* ======================================= */
+
+html[data-bs-theme="dark"] .alert {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border-color: #444444;
+}
+
+html[data-bs-theme="dark"] .alert-danger {
+  background-color: rgba(231, 76, 60, 0.2);
+  border-color: #e74c3c;
+  color: #ff6b6b;
+}
+
+html[data-bs-theme="dark"] .alert-warning {
+  background-color: rgba(255, 193, 7, 0.2);
+  border-color: #ffc107;
+  color: #ffd700;
+}
+
+html[data-bs-theme="dark"] .alert-info {
+  background-color: rgba(0, 180, 180, 0.2);
+  border-color: var(--primary-color);
+  color: #4ecdc4;
+}
+
+/* ======================================= */
+/* RESULTADO DEL CLIMA EN MODO OSCURO */
+/* ======================================= */
+
+html[data-bs-theme="dark"] .card-custom {
+  color: #e0e0e0 !important;
+}
+
+html[data-bs-theme="dark"] .card-custom h1,
+html[data-bs-theme="dark"] .card-custom h2,
+html[data-bs-theme="dark"] .card-custom h3,
+html[data-bs-theme="dark"] .card-custom h4,
+html[data-bs-theme="dark"] .card-custom h5,
+html[data-bs-theme="dark"] .card-custom h6 {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+html[data-bs-theme="dark"] .card-custom p {
+  color: #d0d0d0 !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+html[data-bs-theme="dark"] .card-custom span {
+  color: #d0d0d0 !important;
+}
+
+html[data-bs-theme="dark"] .card-custom div:not(.card):not(.row) {
+  color: inherit;
+}
+
+html[data-bs-theme="dark"] #result {
+  color: #e0e0e0 !important;
+}
+
+html[data-bs-theme="dark"] #result * {
+  color: #e0e0e0 !important;
+}
+
+html[data-bs-theme="dark"] #result h1,
+html[data-bs-theme="dark"] #result h2,
+html[data-bs-theme="dark"] #result h3,
+html[data-bs-theme="dark"] #result h4,
+html[data-bs-theme="dark"] #result h5,
+html[data-bs-theme="dark"] #result h6 {
+  color: #ffffff !important;
+  font-weight: 600;
+}
+
+html[data-bs-theme="dark"] #result p {
+  color: #d0d0d0 !important;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+html[data-bs-theme="dark"] #result span {
+  color: #d0d0d0 !important;
+}
+
+html[data-bs-theme="dark"] #result .btn-outline-danger {
+  color: #ff6b6b !important;
+  border-color: #ff6b6b !important;
+}
+
+html[data-bs-theme="dark"] #result .btn-outline-danger:hover {
+  background-color: #ff6b6b !important;
+  color: white !important;
+}
+
+html[data-bs-theme="dark"] #result .btn-danger {
+  background-color: #e74c3c !important;
+  border-color: #e74c3c !important;
+  color: white !important;
+}
+
+html[data-bs-theme="dark"] #result .card-custom {
+  background-color: #2a2a2a;
+  color: #e0e0e0;
+  border-color: var(--primary-color);
+}
+
+/* ======================================= */
+/* TARJETAS DE PRONÓSTICO */
+/* ======================================= */
+
+.forecast-card {
+  background-color: #ffffff;
+  color: #333333;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+}
+
+.forecast-card:hover {
+  box-shadow: 0 4px 12px rgba(0, 180, 180, 0.2);
+  transform: translateY(-2px);
+}
+
+html[data-bs-theme="dark"] .forecast-card {
+  background-color: #2a2a2a !important;
+  color: #e0e0e0 !important;
+  border: 1px solid #444444 !important;
+}
+
+html[data-bs-theme="dark"] .forecast-card .forecast-day {
+  color: var(--primary-color) !important;
+}
+
+html[data-bs-theme="dark"] .forecast-card .forecast-date {
+  color: #b0b0b0 !important;
+}
+
+html[data-bs-theme="dark"] .forecast-card .forecast-condition {
+  color: #d0d0d0 !important;
+}
+
+html[data-bs-theme="dark"] .forecast-card .forecast-temp {
+  color: #ffffff !important;
+}
+
+html[data-bs-theme="dark"] .forecast-card .forecast-min {
+  color: #a0a0a0 !important;
+}
+
+html[data-bs-theme="dark"] .forecast-card .forecast-rain {
+  color: #4ecdc4 !important;
+}
+
+/* ======================================= */
+/* HISTORIAL EN MODO OSCURO */
+/* ======================================= */
+
+html[data-bs-theme="dark"] #history {
+  color: #e0e0e0 !important;
+}
+
+html[data-bs-theme="dark"] #history p {
+  color: #d0d0d0 !important;
+}
+
+html[data-bs-theme="dark"] #history .btn {
+  color: white !important;
+  background-color: var(--primary-color) !important;
+  border-color: var(--primary-color) !important;
+}
+
+html[data-bs-theme="dark"] #history .btn:hover {
+  background-color: var(--primary-dark) !important;
+  border-color: var(--primary-dark) !important;
+}
+
+html[data-bs-theme="dark"] .forecast-card:hover {
+  background-color: #333333;
+  box-shadow: 0 4px 12px rgba(0, 180, 180, 0.3);
+}
+
+.forecast-day {
+  font-weight: 700;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.25rem;
+  color: var(--primary-color);
+}
+
+.forecast-date {
+  font-size: 0.3rem;
+  color: #888888;
+  margin-bottom: 0.5rem;
+}
+
+html[data-bs-theme="dark"] .forecast-date {
+  color: #999999;
+}
+
+.forecast-condition {
+  font-size: 1.5rem;
+  margin: 0.5rem 0;
+}
+
+.forecast-temp {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.forecast-min {
+  font-weight: 400;
+  opacity: 0.8;
+}
+
+.forecast-rain {
+  font-size: 0.75rem;
+  color: #0088cc;
+  margin-bottom: 0 !important;
+}
+
+html[data-bs-theme="dark"] .forecast-rain {
+  color: #66ccff;
+}
+
+/* ======================================= */
+/* MEDIA QUERIES - RESPONSIVO */
+/* ======================================= */
+
+/* Pantallas extra pequeñas (teléfonos en vertical) */
+@media (max-width: 576px) {
+  body {
+    font-size: 14px;
+  }
+
+  .card-custom {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .card-custom h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-control-responsive {
+    font-size: 16px; /* Evita zoom en iOS */
+    padding: 10px 12px;
+  }
+
+  .btn-custom {
+    font-size: 0.95rem;
+    padding: 10px 15px;
+  }
+
+  .suggestions {
+    max-height: 150px;
+  }
+
+  .suggestions div {
+    padding: 8px;
+    font-size: 0.9rem;
+  }
+
+  .text-example {
+    font-size: 0.75rem;
+    line-height: 1.4;
+  }
+
+  .forecast-card {
+    padding: 10px;
+    margin: 5px 0;
+  }
+
+  .forecast-day {
+    font-size: 0.65rem;
+  }
+
+  .forecast-condition {
+    font-size: 1.2rem;
+    margin: 0.3rem 0;
+  }
+
+  .forecast-temp {
+    font-size: 0.8rem;
+  }
+
+  .forecast-rain {
+    font-size: 0.65rem;
+  }
+
+  .btn-sm {
+    font-size: 0.8rem;
+    padding: 0.35rem 0.5rem;
+  }
+}
+
+/* Pantallas pequeñas (teléfonos en horizontal, tablets pequeñas) */
+@media (min-width: 576px) and (max-width: 768px) {
+  body {
+    font-size: 15px;
+  }
+
+  .card-custom {
+    padding: 18px;
+    border-radius: 13px;
+  }
+
+  .card-custom h2 {
+    font-size: 1.5rem;
+  }
+
+  .suggestions {
+    max-height: 170px;
+  }
+
+  .forecast-card {
+    padding: 12px;
+  }
+
+  .forecast-condition {
+    font-size: 1.3rem;
+  }
+}
+
+/* Tablets medianas */
+@media (min-width: 768px) and (max-width: 992px) {
+  .card-custom {
+    padding: 20px;
+  }
+
+  .card-custom h2 {
+    font-size: 1.8rem;
+  }
+
+  .suggestions {
+    max-height: 180px;
+  }
+}
+
+/* Pantallas grandes (desktops) */
+@media (min-width: 992px) {
+  .card-custom {
+    padding: 20px;
+  }
+
+  .card-custom h2 {
+    font-size: 2rem;
+  }
+}
+
+/* Ajustes de espaciado responsive */
+@media (max-width: 480px) {
+  .d-flex.gap-2 {
+    gap: 0.5rem !important;
+  }
+
+  .mb-3 {
+    margin-bottom: 0.75rem !important;
+  }
+
+  .mt-3 {
+    margin-top: 0.75rem !important;
+  }
+
+  .mt-4 {
+    margin-top: 1rem !important;
+  }
+}
+
+/* Optimizaciones para pantallas táctiles */
+@media (hover: none) and (pointer: coarse) {
+  button {
+    padding: 12px 16px;
+    min-height: 44px; /* Estándar accesible de Apple */
+  }
+
+  .form-control {
+    padding: 12px 14px;
+    min-height: 44px;
+  }
+
+  .btn-custom {
+    min-height: 48px;
+  }
+}

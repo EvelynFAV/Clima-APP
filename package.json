@@ -1,0 +1,14 @@
+{
+  "name": "app-clima-gpt",
+  "version": "1.0.0",
+  "description": "Aplicación de clima con Open-Meteo API",
+  "main": "script.js",
+  "scripts": {
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0"
+  }
+}
