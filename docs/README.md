@@ -40,23 +40,38 @@
 ```
 App-Clima-GPT/
 │
-├── index.html              # Archivo principal (DOM)
-├── script.js               # Lógica de la aplicación
-├── styles.css              # Estilos personalizados
-├── script.test.js          # Suite de pruebas (Jest)
-├── jest.config.js          # Configuración de Jest
-├── package.json            # Dependencias del proyecto
-└── README.md               # Este archivo explicativo
+├── src/                    # 📂 Código fuente
+│   ├── index.html         # Archivo principal (DOM)
+│   ├── script.js          # Lógica de la aplicación
+│   └── styles.css         # Estilos personalizados
+│
+├── tests/                  # 📂 Suite de pruebas
+│   └── script.test.js     # Pruebas unitarias (130+ tests con Jest)
+│
+├── docs/                   # 📂 Documentación
+│   └── README.md          # Este archivo explicativo
+│
+├── jest.config.js         # Configuración de Jest
+├── package.json           # Dependencias del proyecto
+└── .gitignore             # Archivos ignorados por Git
 ```
 
-### Descripción de Archivos
+### Descripción de Carpetas y Archivos
 
-`index.html`: Estructura HTML, Define DOM, importa Bootstrap, vincula archivos CSS y JS
-`script.js`: Lógica de la aplicación, manejo y conexión de APIs, procesamiento de datos, DOM manipulation.
-`styles.css`: Estilos custom, Estilos específicos del front-end
-`script.test.js`: Pruebas unitarias, 130+ tests con Jest (interpretación clima, validación, errores).
-`jest.config.js`: Configuración de Jest (covertura y ambiente de pruebas).
-`package.json` : Se definen los metadatos, los comandos (scripts) que puedes ejecutar y las dependencias necesarias (como Jest).
+**`src/`**: Código fuente de la aplicación
+- `index.html`: Estructura HTML, Define DOM, importa Bootstrap, vincula archivos CSS y JS
+- `script.js`: Lógica de la aplicación, manejo y conexión de APIs, procesamiento de datos, DOM manipulation.
+- `styles.css`: Estilos custom, Estilos específicos del front-end
+
+**`tests/`**: Suite de pruebas
+- `script.test.js`: Pruebas unitarias, 130+ tests con Jest (interpretación clima, validación, errores).
+
+**`docs/`**: Documentación del proyecto
+- `README.md`: Documentación completa (este archivo)
+
+**Archivos de configuración (raíz)**
+- `jest.config.js`: Configuración de Jest (covertura y ambiente de pruebas).
+- `package.json`: Se definen los metadatos, los comandos (scripts) que puedes ejecutar y las dependencias necesarias (como Jest).
 ---
 
 ## 📦 Requisitos Previos
@@ -101,7 +116,7 @@ npm test
 ```
 Debería ver:
 ```
-PASS  script.test.js
+PASS  tests/script.test.js
   ✓ 130+ tests passed
   
 Test Suites: 1 passed, 1 total
@@ -114,13 +129,13 @@ OJO: En caso de que no vea lo anterior, significa que hay un error en el código
 **Opción A: Abrir directamente en navegador**
 ```bash
 # En Windows
-start index.html
+start src/index.html
 
 # En macOS
-open index.html
+open src/index.html
 
 # En Linux
-xdg-open index.html
+xdg-open src/index.html
 ```
 
 **Opción B: Usar un servidor local (recomendado)**
@@ -131,7 +146,7 @@ python -m http.server 8000
 # Con Node.js
 npx http-server
 
-# Luego acceder a http://localhost:8000
+# Luego acceder a http://localhost:8000/src
 ```
 ---
 
