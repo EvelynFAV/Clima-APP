@@ -509,8 +509,6 @@ try {
 } catch (error) {
     showError(error.message || "⚠️ Error al obtener el clima");
 }
-    showError("⚠️ Error al obtener el clima");
-}
 ```
 
 ---
