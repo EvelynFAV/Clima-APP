@@ -513,49 +513,6 @@ try {
 
 ---
 
-## 🔮 Posibles Mejoras
-
-#### 1. **Geolocalización Automática** 
-```javascript
-function getGeoLocation() {
-    // Pide permiso al usuario
-    // Obtiene lat/lon del navegador
-    // Reverse geocoding: coordenadas → nombre ciudad
-    // Llama getWeather() automáticamente
-}
-```
-
-#### 2. **Compartir en Redes** 
-```javascript
-function shareWeather(cityName, temp, condition) {
-    // Genera URLs pre-llenadas para:
-    // - Twitter
-    // - WhatsApp
-    // - Facebook
-}
-```
-
-#### 3. **Progressive Web App (PWA)**
-- Funcionar offline
-- Instalar como app mobile
-- Push notifications
-
-#### 4. **Backend Propio**
-- API propia en Node.js/Express
-- Base de datos con ciudades
-- Rate limiting para producción
-
-#### 5. **Multi-idioma**
-- Traductor de descripciones climáticas
-- Soporte para 5+ idiomas
-
-#### 6. **Mapas Interactivos**
-- Integrar Leaflet.js o Mapbox
-- Mostrar clima en mapa
-- Click en ubicación
-
----
-
 ## 🧪 Testing
 
 ### Ejecutar Pruebas
@@ -724,14 +681,7 @@ Para problemas:
 4. Leer documentación de Open-Meteo
 
 ---
-
-**Última actualización:** Abril 12, 2026  
-**Versión:** 1.0.0  
-**Estado:** Beta (Producción)
-
----
-
-## 🚀 Quick Start (Cómo instalar: Para Impacientes)
+## �🚀 Quick Start (Cómo instalar: Para Impacientes)
 
 ```bash
 # 1. Instalar
@@ -741,9 +691,50 @@ npm install
 npm test
 
 # 3. Abrir
-start index.html
+start src/index.html
 
 # 4. Buscar ciudad
 # Escribe "Santiago" en el input
 # ¡Listo! 🎉
 ```
+## � Posibles Mejoras
+
+#### 1. **Geolocalización Automática** 
+```javascript
+function getGeoLocation() {
+    // Pide permiso al usuario
+    // Obtiene lat/lon del navegador
+    // Reverse geocoding: coordenadas → nombre ciudad
+    // Llama getWeather() automáticamente
+}
+```
+
+#### 2. **Compartir en Redes** 
+```javascript
+function shareWeather(cityName, temp, condition) {
+    // Genera URLs pre-llenadas para:
+    // - Twitter
+    // - WhatsApp
+    // - Facebook
+}
+```
+#### 3. **Progressive Web App (PWA)**
+- Funcionar offline
+- Instalar como app mobile
+- Push notifications
+
+#### 4. **Backend Propio**
+- API propia en Node.js/Express
+- Base de datos con ciudades
+- Rate limiting para producción
+
+#### 5. **Multi-idioma**
+- Traductor de descripciones climáticas
+- Soporte para 5+ idiomas
+
+#### 6. **Mapas Interactivos**
+- Integrar Leaflet.js o Mapbox
+- Mostrar clima en mapa
+- Click en ubicación
+
+---
