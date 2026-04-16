@@ -1,7 +1,7 @@
 module.exports = {
   testEnvironment: 'node',
   collectCoverageFrom: [
-    'script.js',
+    'src/script.js',
     '!**/node_modules/**',
   ],
   coverageThreshold: {
@@ -12,6 +12,6 @@ module.exports = {
       statements: 70,
     },
   },
-  testMatch: ['**/*.test.js'],
+  testMatch: ['tests/**/*.test.js'],
   verbose: true,
 };
