@@ -560,20 +560,6 @@ npm test -- --coverage
 🔄 Integración: 5 tests
 ... más tests
 ```
-
-### Escribir Nuevos Tests
-
-```javascript
-// Ejemplo: Test para nueva funcionalidad
-test(\"TC-NEW: Historial de búsquedas se guarda en localStorage\", () => {
-    const city = \"Santiago\";
-    addToSearchHistory(city);
-    
-    const searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
-    expect(searchHistory).toContain(\"Santiago\");
-});
-```
-
 ---
 
 ## 🐛 Troubleshooting (posibles problemas al instalar la APP)
